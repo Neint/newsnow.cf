@@ -17,7 +17,12 @@ interface Res {
 }
 
 const share = defineSource(async () => {
-  const res = await Promise.all(["create", "ideas", "programmer", "share"].map(k => $fetch(`https://www.v2ex.com/feed/${k}.json`) as Promise< Res>))
+  const res = await Promise.all(["create", "ideas", "programmer", "share"]
+    .map(k => $fetch(`https://www.v2ex.com/feed/${k}.json`, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82",
+      },
+    }) as Promise<Res>))
   return res.map(k => k.items).flat().map(k => ({
     id: k.id,
     title: k.title,
